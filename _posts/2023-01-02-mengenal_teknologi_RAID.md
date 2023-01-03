@@ -36,19 +36,21 @@ Teknik *striping* memungkinkan data untuk didistribusikan ke beberapa *drive*. H
 Berbeda dengan *parity* yang hanya menggunakan satu informasi *parity*, *double parity* menggunakan dua informasi *parity* untuk melakukan proses *error checking*.
 ## RAID Levels
 Terdapat beberapa cara untuk mengimplementasi RAID dengan menggunakan kombinasi berbagai teknik penyimpanan data. Beberapa cara tersebut umumnya dikenal dengan RAID *levels*. Perbadingan tiap level yang umum digunakan secara garis besar dapat dilihat pada tabel di bawah ini.
-| RAID *Level* | Teknik Penyimpanan Data       | Minimal *Drives* yang Dibutuhkan | Kapasitas |
-|:----------:|-------------------------------|-------------|-----------|
-|      0     | *Striping*                      |      2      |     N     |
-|      1     | *Mirroring*                     |      2      |    N/2    |
-|      5     | *Striping* dengan *parity*       |      3      |    N-1    |
-|      6     | *Striping* dengan *double parity* |      4      |    N-2    |
-|   10(1+0)  | *Miroring* dan *striping*         |      4      |    N/2    |
+
+| RAID Level | Teknik Penyimpanan Data           | Minimal *Drives* yang Dibutuhkan | Kapasitas |
+|:----------:|-----------------------------------|----------------------------------|-----------|
+| 0          | *Striping*                        | 2                                | N         |
+| 1          | *Mirroring*                       | 2                                | N/2       |
+| 3          | *Striping* dengan *parity*        | 3                                | N-1       |
+| 5          | *Striping* dengan *parity*        | 3                                | N-1       |
+| 6          | *Striping* dengan *double parity* | 4                                | N-2       |
+| 10(1+0)    | *Miroring* dan *striping*         | 4                                | N/2       |
 
 Semua level RAID diatas menyimpan data di *drive* dalam bentuk *block*. Berikut merupakan penjelasan singkat beberapa level RAID yang umum digunakan:
 ### RAID 0
 RAID 0 menggunakan teknik *striping* tanpa *redundancy*. Dikarenakan tidak memiliki *fault tolerance*, penggunaan RAID 0 sama sekali tidak direkomendasikan. Tujuan utama RAID 0 hanya untuk peningkatan performa dan pemakaian kapasitas yang maksimal. RAID 0 mulai ditinggalkan karena adanya SSDs (*solid-state drives*) yang harganya mulai terjangkau dan kapasitas yang semakin bertambah.
 
-![Ilustrasi RAID 0 *Setup*](/assets/img/posts/RAID_0.svg.png)
+![Diagram RAID 0 *Setup*](/assets/img/posts/RAID_0.svg.png)
 
 Kelebihan:
 - Meningkatkan performa serta RAID yang paling cepat.
@@ -58,10 +60,11 @@ Kelebihan:
 
 Kekurangan:
 - Jika sebuah *drive* mengalami kegagalan, maka akan mengakibatkan kehilangan seluruh data tanpa memiliki kesempatan untuk *recovery*.
+
 ### RAID 1
 RAID 1 menggunakan teknik *mirroring*. Tiap *drive* memiliki salinan data yang sama persis di *drive* lainnya.
 
-![Ilustrasi RAID 1 *Setup*](/assets/img/posts/RAID_1.svg.png)
+![Diagram RAID 1 *Setup*](/assets/img/posts/RAID_1.svg.png)
 
 Kelebihan:
 - Memiliki *redundancy* yang tinggi.
@@ -70,12 +73,13 @@ Kelebihan:
 Kekurangan:
 - Kapasitas maksimal yang bisa terpakai hanya sebesar 50% dari jumlah *drive* yang ada.
 - Tidak mengalami peningkatan performa. Jika terdapat perbedaan kecepatan antar *drive* yang digunakan di RAID 1, maka performa *write* secara keseluruhan adalah kecepatan dari *drive* yang paling lambat.
+
 ### RAID 5
 RAID 5 menggunakan teknik *striping* dengan *parity*. Baik data maupun *parity* tersimpan secara terdistribusi di semua *drive* yang tersedia. Blok data dan informasi *parity*-nya tidak disimpan pada satu *drive* yang sama. Ketika terjadi kegagalan pada suatu *drive*, sistem akan membaca *parity* di semua *drive* yang masih tersedia untuk melakukan *rebuild* terhadap data yang hilang.
 
 Proses *rebuild* meliputi penggantian *drive* yang mengalami kegagalan serta melakukan rekonstruksi terhadap blok data yang hilang ke *drive* yang baru. 
 
-![Ilustrasi RAID 5 *Setup*](/assets/img/posts/RAID_5.svg.png)
+![Diagram RAID 5 *Setup*](/assets/img/posts/RAID_5.svg.png)
 
 Kelebihan:
 - Meningkatkan performa.
@@ -88,7 +92,7 @@ Kekurangan:
 ### RAID 6
 Hampir serupa dengan RAID 5, namun RAID 6 menggunakan teknik *striping* dengan *double parity*. RAID 6 meningkatkan *fault tolerance* dengan cara mampu mengatasi dua *drive* yang mengalami kegagalan.
 
-![Ilustrasi RAID 6 *Setup*](/assets/img/posts/RAID_6.svg.png)
+![Diagram RAID 6 *Setup*](/assets/img/posts/RAID_6.svg.png)
 
 Kelebihan:
 - Meningkatkan performa tapi performa *write* tidak lebih baik dibanding RAID 5.
@@ -104,7 +108,7 @@ Kekurangan:
 ### RAID 10 (1+0)
 RAID 10 merupakan penggabungan teknik yang ada pada RAID 1 dan RAID 0. RAID 10 memiliki urutan proses yang berkebalikan dengan RAID 01. Pada saat melakukan *set up* RAID 10, pertama teknik yang digunakan adalah *mirroring*, selanjutnya adalah *striping*.
 
-![Ilustrasi RAID 10 *Setup*](/assets/img/posts/480px-RAID_10_01.svg.png)
+![Diagram RAID 10 *Setup*](/assets/img/posts/480px-RAID_10_01.svg.png)
 
 Kelebihan:
 - Meningkatkan performa.
