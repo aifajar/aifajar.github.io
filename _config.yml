@@ -21,10 +21,10 @@ timezone: Asia/Jakarta
 
 title: FajarBlog                       # the main title
 
-tagline: Catatan Blog, Sarana Latihan Menulis # it will display as the sub-title
+tagline: Sarana Latihan Technical Writing # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  Sarana Latihan *Technical Writing*.
+  Sarana Latihan Technical Writing.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://aifajar.github.io'
