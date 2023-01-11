@@ -1,5 +1,5 @@
 ---
-title: Jenis Metode Serangan terhadap Password
+title: Metode Serangan Siber terhadap Password
 date: 2023-01-11 23:59:59 +0700
 categories: [Cybersecurity, CompTIA Security+]
 tags: [cybersecurity,comptia security+,password attack]
