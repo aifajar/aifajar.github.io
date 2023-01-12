@@ -1,5 +1,5 @@
 ---
-title: Jenis Teknik pada Social Engineering
+title: Social Engineering dalam Dunia Cybersecurity
 date: 2023-01-03 23:59:59 +0700
 categories: [Cybersecurity, CompTIA Security+]
 tags: [cybersecurity,comptia security+,social engineering]
