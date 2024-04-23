@@ -1,11 +1,14 @@
 ---
 title: Getting Started
+description: >-
+  Get started with Chirpy basics in this comprehensive overview.
+  You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.
 author: cotes
 date: 2019-08-09 20:55:00 +0800
 categories: [Blogging, Tutorial]
 tags: [getting started]
 pin: true
-img_path: '/posts/20180809'
+media_subpath: '/posts/20180809'
 ---
 
 ## Prerequisites
@@ -101,7 +104,7 @@ Now you can choose _ONE_ of the following methods to deploy your Jekyll site.
 There are a few things to get ready for.
 
 - If you're on the GitHub Free plan, keep your site repository public.
-- If you have committed `Gemfile.lock`{: .filepath} to the repository, and your local machine is not running Linux, go the the root of your site and update the platform list of the lock-file:
+- If you have committed `Gemfile.lock`{: .filepath} to the repository, and your local machine is not running Linux, go to the root of your site and update the platform list of the lock-file:
 
   ```console
   $ bundle lock --add-platform x86_64-linux
