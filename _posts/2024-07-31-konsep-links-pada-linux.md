@@ -28,7 +28,7 @@ Ada beberapa batasan pada penerapan *hard links*, diantaranya:
 Jika salah satu *file* pada *hard links* terhapus maka data pada *file/s* lainnya tidak berdampak. *Hard links* dapat diterapkan dengan menjalankan *command* ln.
 
 Contoh:
-```
+```sh
 ln original.txt hardlink.txt
 ```
 - hardlink.txt merupakan sebuah *hard link* dari *file* original.txt.
@@ -38,7 +38,7 @@ ln original.txt hardlink.txt
 **Symbolic link** atau yang sering disebut juga sebagai *soft link* tidak terhubung langsung ke inode, namun terhubung ke nama *file*. Keuntungan menggunakan *symbolic link* adalah terkait fleksibilitas, dapat menhubungkan *link files* beda *devices* dan juga direktori. Kelemahan terbesar dari penggunaan *symbolic link* adalah ketika *file* asli dipindahkan lokasinya atau dihapus maka *link* menjadi tidak valid dan eror. *Symbolic link* dapat diterapkan dengan menjalankan *command* ln -s.
 
 Contoh: 
-```
+```sh
 ln original.txt softlink.txt
 ```
 - softlink.txt merupakan sebuah *symbolic link* dari *file* original.txt.
@@ -50,7 +50,7 @@ _Ilustrasi Hubungan antara Inode, Hard Links, dan Soft Links_
 ## Demo Links pada Linux
 
 1. Membuat direktori dan *file*.
- ```
+ ```sh
 mkdir demo
 cd demo
 echo "Original:v1" > original.txt
@@ -60,11 +60,11 @@ cat original.txt
 _Screenshot Langkah 1_
 
 2. Membuat *hard link file* hardlink.txt yang merujuk ke *file* original.txt.
- ```
+ ```sh
 ln original.txt hardlink.txt
 ```
 3. Verifikasi *hard link*. Pastikan konten data dari *file* hardlink.txt dan original.txt sama, begitu juga dengan nomor inode-nya.
- ```
+ ```sh
 cat hardlink.txt
 ls -li
 ```
@@ -72,7 +72,7 @@ ls -li
 _Screenshot Langkah 3_
 
 4. Ganti konten dari *file* hardlink.txt. Pastikan konten dari *file* original.txt juga ikut berubah.
- ```
+ ```sh
 echo "Original:v2" > hardlink.txt
 cat hardlink.txt
 cat original.txt
@@ -81,11 +81,11 @@ cat original.txt
 _Screenshot Langkah 4_
 
 5. Membuat *symbolic link file* softlink.txt yang merujuk ke *file* original.txt.
-```
+```sh
 ln -s original.txt softlink.txt
 ```
 6. Verifikasi *soft link*. Pastikan konten data dari *file* soflink.txt dan original.txt sama, namun nomor inode kedua *files* berbeda.
-```
+```sh
 cat softlink.txt
 ls -li
 ```
@@ -93,7 +93,7 @@ ls -li
 _Screenshot Langkah 6_
 
 7. Ganti konten dari *file* softlink.txt. Pastikan konten dari *file* original.txt juga ikut berubah.
-```
+```sh
 echo "Original:v3" > softlink.txt
 cat softlink.txt
 cat original.txt
@@ -102,11 +102,11 @@ cat original.txt
 _Screenshot Langkah 7_
 
 8. Hapus *file* original.txt.
-```
+```sh
 rm original.txt
 ```
 9. Verifikasi konten dari *file* hardlink.txt dan softlink.txt. Pastikan *file* hardlink.txt masih memiliki konten data sedangkan *file* softlink.txt mengalami eror.
-```
+```sh
 cat hardlink.txt
 cat softlink.txt
 ls -li
