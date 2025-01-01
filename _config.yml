@@ -16,7 +16,7 @@ timezone: Asia/Jakarta
 
 title: FajarBlog # the main title
 
-tagline: Blog Teknis & Nonteknis | DevOps | Cloud Computing | Cybersecurity | IT. # it will display as the subtitle
+tagline: Blog Teknis & Nonteknis. # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Blog Teknis & Nonteknis | Catatan & Dokumentasi
