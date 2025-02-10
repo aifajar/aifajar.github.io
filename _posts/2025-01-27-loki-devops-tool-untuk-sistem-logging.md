@@ -1,6 +1,6 @@
 ---
 title: Loki - DevOps Tool untuk Sistem Logging
-date: 2024-01-27 23:59:59 +0700
+date: 2025-01-27 23:59:59 +0700
 categories: [DevOps]
 tags: [devops, devops tools, logging system, loki]
 ---

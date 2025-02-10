@@ -1,6 +1,6 @@
 ---
 title: Model Layanan pada Cloud
-date: 2024-01-02 23:59:59 +0700
+date: 2025-01-02 23:59:59 +0700
 categories: [Cloud Computing]
 tags: [cloud service, iaas, paas, saas]
 ---
