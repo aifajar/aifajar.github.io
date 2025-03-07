@@ -1,6 +1,6 @@
 ---
 title: Cyber Kill Chain
-date: 2025-08-04 23:59:59 +0700
+date: 2025-02-10 23:59:59 +0700
 categories: [Cybersecurity]
 tags: [cyber kill chain, security frameworks]
 ---
