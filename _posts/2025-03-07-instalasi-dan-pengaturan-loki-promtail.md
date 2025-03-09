@@ -96,14 +96,14 @@ wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/cmd/loki/loki-local-c
 
 ```console
 cd
-sudo mkdir -p /loki
+sudo mkdir -p /loki /data /data/retention
 ```
 
 10. Atur *permission file* maupun direktori terkait *service* Loki.
 
 ```console
 sudo chown loki:loki /usr/local/bin/loki
-sudo chown -R loki:loki /loki /etc/loki
+sudo chown -R loki:loki /loki /etc/loki /data
 ```
 
 11. *Reload* pengaturan systemd. Start lalu enable *service* Loki.
@@ -205,7 +205,7 @@ Berikut beberapa keterangan pengaturan dari isi *script* di atas.
 - **compactor** -> **retention_enabled**: Mengaktifkan masa retensi penyimpanan log.
 
 ## Instalasi Promtail
-Berikut merupakan langkah-langkah proses instalasi *service* Promtail.
+Sebelum mengikuti instruksi di bawah, pastikan Anda berada di server target. Berikut merupakan langkah-langkah proses instalasi *service* Promtail.
 > Pastikan *service* Promtail diinstal di server target, dalam kasus ini diinstal di dalam server yang terdapat *service* Nginx maupun MongoDB.
 
 1. Unduh *file* Promtail. Versi yang digunakan adalah 3.0.0.
@@ -262,10 +262,10 @@ sudo systemctl enable promtail.service
 sudo systemctl status promtail.service
 ```
 
-9. Atur agar *service* Promtail hanya bisa diakses melalui Loki. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
+9. Masuk ke server Loki. Atur agar *service* Promtail hanya bisa diakses melalui Loki. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
 
 ```console
 sudo ufw allow from <ip-address> to any port 3100
 ```
 
-> Gunakan IP *private* dari server Loki.
+> Gunakan IP *private* dari server target tempat Promtail terinstal.
