@@ -1,6 +1,6 @@
 ---
 title: Visualisasi Log Slow Query MongoDB menggunakan Loki
-date: 2025-03-15 23:59:59 +0700
+date: 2025-03-28 23:59:59 +0700
 categories: [DevOps]
 tags: [devops, devops tools, logging system, mongodb, promtail]
 ---
@@ -203,9 +203,9 @@ Sebelum melakukan visualisasi log *slow query* pastikan Loki sudah terintegrasi 
 
 ### Pengaturan Dashboard
 
-1. Pada bagian navigasi menu di sebelah kiri Grafana, pilih **Dashboards**.
+1. Pada bagian navigasi menu di sebelah kiri aplikasi Grafana, pilih **Dashboards**.
 2. Klik **New**, lalu pilih **New dashboard**.
-3. (Opsional) Atur variabel. Klik **Settings**, lalu masuk ke tab **Variables**. Klik **Add Variable**. Isi/pilihlan nilai dari formulir inputnya sebagai berikut. lalu sisanya biarkan saja dengan pengaturan *default-nya*.
+3. (Opsional) Atur variabel pada *dashboard*. Klik **Settings**, lalu masuk ke tab **Variables**. Klik **Add Variable**. Isi/pilihlan nilai dari formulir inputnya sebagai berikut. lalu sisanya biarkan saja dengan pengaturan *default-nya*.
    - **Select variable type**: Query
    - **Name**: hostname
    - **Data source**: loki (disesuaikan dengan nama *data source* Loki yang diintegrasikan ke Grafana)
@@ -217,11 +217,32 @@ Sebelum melakukan visualisasi log *slow query* pastikan Loki sudah terintegrasi 
 ### Pengaturan Kueri dan Bentuk Visualisasi
 1. Klik **Back to dashboard**, lalu klik **Add visualization**.
 2. Pilih loki saat *wizard* **Select data source** muncul.
-3. mm
+3. Pada bagian bawah pengaturan, terdapat 3 tab, yaitu **Queries**, **Transformations**, dan **Alert**. Pilih bagian **Queries**.
+4. Pilih tab **Code**, lalu masukkan kueri berikut.
+    ```console
+    {dbHostname="$hostname"} |= `Slow query`
+    ```
+    Kueri di atas menampilkan log yang isi kontennya berisi kata "Slow query".
+5. Pilih **Table** sebagai tipe visualisasi yang akan digunakan.
+6. Pada **Title** di bagian **Panel options** di sebelah kanan aplikasi Grafana, isi dengan Top 10 Slowest Queries Log by Duration. Silahkan isinya disesuaikan dengan Anda.
+7. Jalankan **Run query** di bagian tab **Queries** pada bawah pengaturan.
 Berikut penampakan hasil dari pengaturan di atas.
+![visualisasi-log-slow-query](/assets/img/posts/devops/visualisasi-pengaturan-kueri-log-slow-query.png)
+_Visualisasi Pengaturan Kueri Log Slow Query di Grafana_
 
 ### Transformasi Data
 
-Berikut penampakan akhir dari visualisasi log *slow query*.
+1. Pilih tab **Transformations** pada bagian bawah pengaturan.
+2. Klik **Add transformation**. Lalu *search* dan pilih **Extract fields**. Pada bagian **Source** pilih {} labels.
+    > Perhatikan gambar di atas, pada kolom labels di tabel tersebut berisi semua label yang telah di-*parsing* oleh log *agent*. Tujuan tranformasi ini adalah untuk mengekstrak nilai pada kolom *labels* menjadi kolom baru.
+    
+    *Enable* pengaturan **Replace all fields** dan **Keep time**.
+3. Klik **Add another transformation**. Lalu *search* dan pilih **Convert field type**. Pada bagian **Field** pilih bagian duration dan **as** Number.
+    > Secara *default*, semua **Field** yang sudah melalui proses transformasi ekstraksi di atas bertipe String.
+4. Klik **Add another transformation**. Lalu *search* dan pilih **Sort by**. Pada bagian **Field** pilih duration dan *enable* pengaturan **Reverse**.
+    > Transformasi ini bertujuan untuk menampilkan data (baris) berdasarkan durasi paling tinggi.
+5. Klik **Add another transformation**. Lalu *search* dan pilih **Organize fields by name**. *Disable* apa saja *field* atau kolom yang tidak diperlukan di visualisasi tabel. Secara *default*, semua kolom hasil ekstraksi ditampilkan di visualisasi tabel. Penamaan kolom juga bisa diatur pada tahap transformasi ini.
+6. Klik **Add another transformation**. Lalu *search* dan pilih **Limit**. Atur nilai batasan maksimal kueri yang ingin ditampilkan di visualisasi tabel.
+7. Klik **Back to dashboard**, lalu atur posisi dan ukuran visualisasi *dashboard*. Terakhir klik **Save dashboard**. Berikut penampakan akhir dari visualisasi log *slow query*.
 ![visualisasi-log-slow-query](/assets/img/posts/devops/visualisasi-akhir-log-slow-query.jpg)
-_Visualisasi Log Slow Query di Grafana_
+_Visualisasi Akhir Log Slow Query di Grafana_
