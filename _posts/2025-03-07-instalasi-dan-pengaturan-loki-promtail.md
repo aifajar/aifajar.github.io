@@ -7,14 +7,14 @@ tags: [devops, devops tools, logging system, loki, promtail]
 
 ## Arsitektur Sistem pada Project
 
-Implementasi *projects* yang akan dibangun menggunakan *existing infrastructure* atau infrastruktur yang sudah ada. Berikut merupakan gambaran dari arsitektur dari infrastruktur sistem yang ada.
+Implementasi *projects* ini akan dibangun menggunakan *existing infrastructure* atau infrastruktur yang sudah ada. Berikut merupakan gambaran dari arsitektur dari infrastruktur sistem yang ada.
 
 ![project-loki](/assets/img/posts/devops/arsitektur-project-loki.png)
 _Arsitektur Project Loki_
 
 *Projects* ini merupakan *VM-based*, jadi tidak menggunakan Docker atau *container engine* lain dalam penerapannya. Setiap satu ikon merepresentasikan sebuah server atau *node* yang berupa VM (*Virtual Machine*).
 
-> Walaupun *project*-nya *VM-based*, harusnya tidak akan ada perbedaan yang signifikan bila coba diterapkan dengan menggunakan Docker.
+> Walaupun *project*-nya *VM-based*, tidak akan ada perbedaan yang signifikan bila coba diterapkan dengan menggunakan Docker.
 
 ## Informasi Lingkungan Project
 
@@ -31,97 +31,97 @@ Semua sistem operasi yang terdapat pada VM yang ada menggunakan Ubuntu LTS versi
 Pastikan sistem di atas sudah tersedia sebelum mengikuti instruksi-instruksi selanjutnya. Alternatif untuk IDCloudHost *object storage* bisa menggunakan alternatif *object storage* lain selama *S3-compatible*, beberapa diantaranya dapat menggunakan Minio, DigitalOcean Space, atau AWS S3. *Project* ini juga bisa dijalankan menggunakan diska bawaan dari VM/VPS tanpa memerlukan *object storage*.
 
 ## Instalasi Loki
-Berikut merupakan langkah-langkah proses instalasi *service* Loki.
+Berikut merupakan langkah-langkah proses instalasi Loki.
 
-1. Buat *system user* untuk menjalankan *service* Loki.
+1. Buat *system user* untuk menjalankan Loki.
 
-```console
-sudo useradd --system loki
-```
+    ```console
+    sudo useradd --system loki
+    ```
 
 2. Unduh *file* Loki. Sesuai informasi di atas, versi yang digunakan adalah 3.0.0.
 
-```console
-wget https://github.com/grafana/loki/releases/download/v3.0.0/loki-linux-amd64.zip
-```
+    ```console
+    wget https://github.com/grafana/loki/releases/download/v3.0.0/loki-linux-amd64.zip
+    ```
 
 3. Ekstrak *file* Loki yang barusan diunduh.
 
-```console
-unzip loki-linux-amd64.zip
-```
+    ```console
+    unzip loki-linux-amd64.zip
+    ```
 
 4. Salin *file* binari Loki sebelumnya ke direktori /usr/local/bin/.
 
-```console
-sudo cp loki-linux-amd64 /usr/local/bin/loki
-```
+    ```console
+    sudo cp loki-linux-amd64 /usr/local/bin/loki
+    ```
 
-5. Buat *file* pengaturan *service* Loki sebagai systemd.
+5. Buat *file* pengaturan Loki sebagai systemd.
 
-```console
-sudo nano /etc/systemd/system/loki.service
-```
+    ```console
+    sudo nano /etc/systemd/system/loki.service
+    ```
 
 6. Isi *file* tersebut dengan *script* berikut.
 
-```console
-[Unit]
-Description=Loki service
-After=network.target
+    ```console
+    [Unit]
+    Description=Loki service
+    After=network.target
 
-[Service]
-Type=simple
-User=loki
-ExecStart=/usr/local/bin/loki -config.file /etc/loki/loki-local-config.yaml
+    [Service]
+    Type=simple
+    User=loki
+    ExecStart=/usr/local/bin/loki -config.file /etc/loki/loki-local-config.yaml
 
-[Install]
-WantedBy=multi-user.target
-```
+    [Install]
+    WantedBy=multi-user.target
+    ```
 
 7. Buat direktori untuk menyimpan *file* pengaturan Loki.
 
-```console
-mkdir -p /etc/loki
-cd /etc/loki
-```
+    ```console
+    mkdir -p /etc/loki
+    cd /etc/loki
+    ```
 
 8. Unduh *file* pengaturan *default* Loki.
 
-```console
-wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/cmd/loki/loki-local-config.yaml
-```
+    ```console
+    wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/cmd/loki/loki-local-config.yaml
+    ```
 
-9. Buat direktori untuk penyimpanan data *service* Loki.
+9. Buat direktori untuk penyimpanan data Loki.
 
-```console
-cd
-sudo mkdir -p /loki /data /data/retention
-```
+    ```console
+    cd
+    sudo mkdir -p /loki /data /data/retention
+    ```
 
-10. Atur *permission file* maupun direktori terkait *service* Loki.
+10. Atur *permission file* maupun direktori terkait Loki.
 
-```console
-sudo chown loki:loki /usr/local/bin/loki
-sudo chown -R loki:loki /loki /etc/loki /data
-```
+    ```console
+    sudo chown loki:loki /usr/local/bin/loki
+    sudo chown -R loki:loki /loki /etc/loki /data
+    ```
 
-11. *Reload* pengaturan systemd. Start lalu enable *service* Loki.
+11. *Reload* pengaturan systemd. Start lalu *enable* Loki.
 
-```console
-sudo systemctl daemon-reload
-sudo systemctl start loki.service
-sudo systemctl enable loki.service
-sudo systemctl status loki.service
-```
+    ```console
+    sudo systemctl daemon-reload
+    sudo systemctl start loki.service
+    sudo systemctl enable loki.service
+    sudo systemctl status loki.service
+    ```
 
-12. Atur agar *service* Loki hanya bisa diakses melalui Grafana. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
+12. Atur agar Loki hanya bisa diakses melalui Grafana. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
 
-```console
-sudo ufw allow from <ip-address> to any port 3100
-```
+    ```console
+    sudo ufw allow from <ip-address> to any port 3100
+    ```
 
-> Gunakan IP *private* dari server Grafana.
+    > Gunakan IP *private* dari server Grafana.
 
 ## File Pengaturan Loki
 
@@ -193,8 +193,8 @@ ruler:
 **Keterangan:**
 
 Berikut beberapa keterangan pengaturan dari isi *script* di atas.
-- **http_listen_port**: *Port* yang digunakan untuk menajalankan *service* Loki di server.
-- **path_prefix**: Direktori penyimpanan data terkait *service* Loki di server.
+- **http_listen_port**: *Port* yang digunakan untuk menajalankan Loki di server.
+- **path_prefix**: Direktori penyimpanan data terkait Loki di server.
 - **schema_config** -> **configs** -> **object_store**: Tipe penyimpanan log pada Loki. Filesystem menggunakan diska pada server VM Loki terinstal. S3 menggunakan *object storage* AWS S3 maupun selain AWS S3 tapi *S3-compatible*.
 - **storage_config** -> **aws** -> **bucketnames**: Nama *bucket object storage*.
 - **storage_config** -> **aws** -> **endpoint**: Nama *endpoint* dari *bucket object storage* yang dibuat.
@@ -205,67 +205,87 @@ Berikut beberapa keterangan pengaturan dari isi *script* di atas.
 - **compactor** -> **retention_enabled**: Mengaktifkan masa retensi penyimpanan log.
 
 ## Instalasi Promtail
-Sebelum mengikuti instruksi di bawah, pastikan Anda berada di server target. Berikut merupakan langkah-langkah proses instalasi *service* Promtail.
-> Pastikan *service* Promtail diinstal di server target, dalam kasus ini diinstal di dalam server yang terdapat *service* Nginx maupun MongoDB.
+Sebelum mengikuti instruksi di bawah, pastikan Anda berada di server target. Berikut merupakan langkah-langkah proses instalasi Promtail.
+> Pastikan Promtail diinstal di server target, dalam kasus ini diinstal di dalam server yang terdapat servis Nginx maupun MongoDB.
 
 1. Unduh *file* Promtail. Versi yang digunakan adalah 3.0.0.
 
-```console
-wget https://github.com/grafana/loki/releases/download/v3.0.0/promtail-linux-amd64.zip
-```
+    ```console
+    wget https://github.com/grafana/loki/releases/download/v3.0.0/promtail-linux-amd64.zip
+    ```
 
 2. Ekstrak *file* Promtail yang barusan diunduh.
 
 3. Salin *file* binari Promtail sebelumnya ke direktori /usr/local/bin/.
 
-4. Buat *file* pengaturan *service* Promtail sebagai systemd.
+4. Buat *file* pengaturan Promtail sebagai systemd.
 
-```console
-sudo nano /etc/systemd/system/promtail.service
-```
+    ```console
+    sudo nano /etc/systemd/system/promtail.service
+    ```
 
 5. Isi *file* tersebut dengan *script* berikut.
 
-```console
-[Unit]
-Description=Promtail service
-After=network.target
+    ```console
+    [Unit]
+    Description=Promtail service
+    After=network.target
 
-[Service]
-Type=simple
-User=root
-ExecStart=/usr/local/bin/promtail -config.file /etc/promtail/promtail-local-config.yaml
+    [Service]
+    Type=simple
+    User=root
+    ExecStart=/usr/local/bin/promtail -config.file /etc/promtail/promtail-local-config.yaml
 
-[Install]
-WantedBy=multi-user.target
-```
+    [Install]
+    WantedBy=multi-user.target
+    ```
 
 6. Buat direktori untuk menyimpan *file* pengaturan Promtail.
 
-```console
-mkdir -p /etc/promtail
-cd /etc/promtail
-```
+    ```console
+    mkdir -p /etc/promtail
+    cd /etc/promtail
+    ```
 
 7. Unduh *file* pengaturan *default* Promtail.
 
-```console
-wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/clients/cmd/promtail/promtail-local-config.yaml
-```
+    ```console
+    wget https://raw.githubusercontent.com/grafana/loki/v3.0.0/clients/cmd/promtail/promtail-local-config.yaml
+    ```
 
-8. *Reload* pengaturan systemd. Start lalu enable *service* Promtail.
+8. *Reload* pengaturan systemd. Start lalu *enable* Promtail.
 
-```console
-sudo systemctl daemon-reload
-sudo systemctl start promtail.service
-sudo systemctl enable promtail.service
-sudo systemctl status promtail.service
-```
+    ```console
+    sudo systemctl daemon-reload
+    sudo systemctl start promtail.service
+    sudo systemctl enable promtail.service
+    sudo systemctl status promtail.service
+    ```
 
-9. Masuk ke server Loki. Atur agar *service* Promtail hanya bisa diakses melalui Loki. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
+9. Masuk ke server Loki. Atur agar Promtail hanya bisa diakses melalui server Loki. Dalam kasus ini, server menggunakan pengaturan *firewall* ufw.
 
-```console
-sudo ufw allow from <ip-address> to any port 3100
-```
+    ```console
+    sudo ufw allow from <ip-address> to any port 3100
+    ```
 
-> Gunakan IP *private* dari server target tempat Promtail terinstal.
+    > Gunakan IP *private* dari server target tempat Promtail terinstal.
+
+## Integrasi Loki ke Grafana
+
+Pastikan Grafana sudah tersedia sebelum masuk ke tahap ini. Berikut merupakan langkah integrasi Loki ke Grafana.
+
+1. Masuk ke server Loki. Atur agar Loki hanya bisa diakses melalui server Grafana melalui *firewall*.
+
+    ```console
+    sudo ufw allow from <ip-address> to any port 3100
+    ```
+
+    > Gunakan IP *private* dari server Grafana.
+
+2. Masuk ke aplikasi Grafana. Lalu, pada bagian navigasi menu di sebelah kiri aplikasi Grafana, pilih **Add new connection** di bagian **Connection**.
+
+3. *Search* dan pilih **Loki**. Lalu klik **Add new data source**.
+
+4. Isi pengaturan **Name** dengan loki (silakan sesuaikan dengan keinginan). Lalu isi juga pengaturan **URL** di bagian **Connection** dengan format `http://<ip-private-server-loki>:3100`. Biarkan sisa pengaturan lain dengan nilai *default*.
+
+5. Klik **Save & test**. Pastikan muncul pemberitahuan "Data source successfully connected." yang menunjukkan bahwa integrasi Loki ke Grafana berhasil.
