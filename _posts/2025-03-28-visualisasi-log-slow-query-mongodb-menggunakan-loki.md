@@ -5,7 +5,7 @@ categories: [DevOps]
 tags: [devops, devops tools, logging system, mongodb, promtail]
 ---
 
-Sebelum mengikuti instruksi di bawah pastikan *tool* Promtail sudah terinstal di server target yang terdapat MongoDB-nya. Jika belum memiliki Promtail, silakan Anda cek tulisan saya sebelumnya [disini](https://blog.aifajar.com/posts/instalasi-dan-pengaturan-loki-promtail/) untuk mengikuti panduan instalasinya.
+Sebelum mengikuti instruksi di bawah pastikan *tool* Promtail sudah terinstal di server target yang terdapat MongoDB-nya. Jika belum memiliki Promtail, silakan Anda cek tulisan saya sebelumnya [disini](https://blog.aifajar.com/posts/pengaturan-instalasi-loki-dan-promtail/) untuk mengikuti panduan instalasinya.
 
 ## Pengaturan Servis MongoDB
 
