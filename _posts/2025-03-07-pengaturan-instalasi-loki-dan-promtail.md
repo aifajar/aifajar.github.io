@@ -1,5 +1,5 @@
 ---
-title: Instalasi dan Pengaturan Loki dan Promtail
+title: Pengaturan Instalasi Loki dan Promtail
 date: 2025-03-07 23:59:59 +0700
 categories: [DevOps]
 tags: [devops, devops tools, logging system, loki, promtail]

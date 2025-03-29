@@ -6,6 +6,7 @@ tags: [devops, devops tools, logging system, loki]
 ---
 
 ![Logo](/assets/img/posts/logo/logo-loki.svg)
+_Logo Loki_
 
 Loki merupakan sebuah *tool* DevOps dari Grafana yang digunakan untuk sistem *logging*. Fungsi utamanya adalah sebagai sistem *log aggregation* yang menyimpan log dan melakukan kueri terhadap log-log tersebut. **Log aggregation** merupakan proses pengumpulan banyak log dari berbagai sumber yang ada dan menggabungkannya ke dalam satu tempat penyimpanan yang tersentralisasi. *Log aggregation* memudahkan sebuah tim untuk memantau, mengecek, atau menganalisa suatu sistem, misalnya sistem operasi, *database*, atau aplikasi. *Log aggregation* dapat digunakan juga sebagai persyaratan suatu regulasi maupun *compliance*. Beberapa *tools* terkait *logging* populer selain Loki yang digunakan dalam dunia industri adalah ELK (Elasticsearch, Logstash, Kibana) Stack, Datadog, New Relic, dan Splunk.
 
@@ -39,14 +40,9 @@ Loki menggunakan LogQL sebagai bahasa kuerinya. LogQL dapat digunakan di Grafana
 
 Berikut merupakan beberapa *projects* terkait Loki yang saya buat dokumentasinya.
 
-1. [Instalasi dan Pengaturan Loki & Promtail](https://blog.aifajar.com/posts/instalasi-dan-pengaturan-loki-promtail/)
+1. [Instalasi dan Pengaturan Loki & Promtail](https://blog.aifajar.com/posts/pengaturan-instalasi-loki-dan-promtail/)
 2. [Visualisasi dan Analisis Log Slow Query MongoDB Menggunakan Loki](https://blog.aifajar.com/posts/visualisasi-log-slow-query-mongodb-menggunakan-loki/)
 3. Visualisasi Log Nginx (Access & Error) Menggunakan Loki (**Soon**)
 4. Visualisasi Metrics Log Nginx (Access) Menggunakan Loki (**Soon**)
-
-Adapun gambaran dari arsitektur dari infrastruktur sistem yang dibuat, dapat dilihat pada gambar di bawah ini.
-
-![project-loki](/assets/img/posts/devops/arsitektur-project-loki.png)
-_Arsitektur Project Loki_
 
 > Saya melakukan implementasi *projects* tersebut menggunakan infrastruktur yang sudah ada (*existing infrastructure*), sehingga tidak menggunakan versi terbaru dari *stack* aplikasi atau *tools* yang ada. Walaupun demikian, saya meyakini bahwa secara konsep dan implementasi tidak akan berbeda signifikan jika menerapkannya menggunakan versi terbaru dari *stack* aplikasi tersebut.
