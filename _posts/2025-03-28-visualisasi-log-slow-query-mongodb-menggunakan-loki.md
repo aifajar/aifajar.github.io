@@ -9,7 +9,7 @@ Sebelum mengikuti instruksi di bawah pastikan *tool* Promtail sudah terinstal di
 
 ## Pengaturan Servis MongoDB
 
-Secara *default*, setiap *query* yang dieksekusi dan memiliki durasi lebih dari 100 ms (0,1 detik) akan tercatat di log servis MongoDB. Dalam kasus ini, saya akan mengatur agar MongoDB hanya mencatat *slow query* yang memiliki durasi lebih dari 0,5 detik (500 ms) saja. Penentuan batas durasi yang dapat ditolerir, diatur melalui nilai *threshold* pada *file* pengaturan servis MongoDB. Lokasi *file* pengaturan tersebut terletak di /etc/mongod.conf. Di bawah ini merupakan langkah untuk mengubah nilai *threshold* durasi pencatatan log *slow query*.
+Secara *default*, setiap *query* yang dieksekusi dan memiliki durasi lebih dari 100 ms (0,1 detik) akan tercatat di log servis MongoDB. Dalam kasus ini, saya akan mengatur agar MongoDB hanya mencatat *slow query* yang memiliki durasi lebih dari 0,5 detik (500 ms) saja. Penentuan batas durasi yang dapat ditolerir, diatur melalui nilai *threshold* pada *file* pengaturan servis MongoDB. Lokasi *file* pengaturan tersebut berada di /etc/mongod.conf. Di bawah ini merupakan langkah untuk mengubah nilai *threshold* durasi pada pencatatan log *slow query*.
 
 1. Buka *file* pengaturan servis MongoDB.
 
@@ -33,7 +33,7 @@ Secara *default*, setiap *query* yang dieksekusi dan memiliki durasi lebih dari 
     sudo systemctl restart mongod.service
     ```
 
-Terdapat beberapa pertimbangan kenapa perlu mengubah nilai *default threshold*. Diantaranya adalah agar log hanya mencatat *queries* yang benar-benar lambat sesuai dengan toleransi durasi yang sudah ditentukan. Hal ini bertujuan agar server target tidak menciptakan terlalu banyak log, sehingga mengakibatkan kapasitas penyimpanan diska di server maupun *object storage* yang digunakan Loki menjadi besar. Log juga dapat meningkatkan penggunaan *write* I/O *disk* di server. Peningkatan penggunaan I/O *disk* tanpa diimbangi dengan spesifikasi diska dan *hardware resources* yang mumpuni dapat mengakibatkan penurunan performa kinerja server. 
+Terdapat beberapa pertimbangan kenapa perlu mengubah nilai *default threshold*. Diantaranya adalah agar log hanya mencatat *queries* yang benar-benar lambat sesuai dengan toleransi durasi yang sudah ditentukan. Hal ini bertujuan agar server target tidak menciptakan terlalu banyak log, sehingga mengakibatkan kapasitas penyimpanan diska di server target maupun *object storage* yang digunakan Loki menjadi besar. Log juga dapat meningkatkan penggunaan *write* I/O *disk* di server. Peningkatan penggunaan I/O *disk* tanpa diimbangi dengan spesifikasi diska dan *hardware resources* yang mumpuni dapat mengakibatkan penurunan performa kinerja server. 
 
 ## Struktur Log Slow Query
 
@@ -234,14 +234,14 @@ _Visualisasi Pengaturan Kueri Log Slow Query di Grafana_
 
 1. Pilih tab **Transformations** pada bagian bawah pengaturan.
 2. Klik **Add transformation**. Lalu *search* dan pilih **Extract fields**. Pada bagian **Source** pilih {} labels.
-    > Perhatikan gambar di atas, pada kolom labels di tabel tersebut berisi semua label yang telah di-*parsing* oleh log *agent*. Tujuan tranformasi ini adalah untuk mengekstrak nilai pada kolom *labels* menjadi kolom baru.
+    > Perhatikan gambar di atas, pada kolom labels di tabel tersebut berisi semua label yang telah di-*parsing* oleh log *agent*. Tujuan tranformasi ini adalah untuk mengekstrak nilai pada kolom *labels* menjadi *field* atau kolom baru.
     
     *Enable* pengaturan **Replace all fields** dan **Keep time**.
 3. Klik **Add another transformation**. Lalu *search* dan pilih **Convert field type**. Pada bagian **Field** pilih bagian duration dan **as** Number.
-    > Secara *default*, semua **Field** yang sudah melalui proses transformasi ekstraksi di atas bertipe String.
+    > Secara *default*, semua kolom baru yang sudah melalui proses transformasi ekstraksi di atas bertipe String.
 4. Klik **Add another transformation**. Lalu *search* dan pilih **Sort by**. Pada bagian **Field** pilih duration dan *enable* pengaturan **Reverse**.
     > Transformasi ini bertujuan untuk menampilkan data (baris) berdasarkan durasi paling tinggi.
-5. Klik **Add another transformation**. Lalu *search* dan pilih **Organize fields by name**. *Disable* apa saja *field* atau kolom yang tidak diperlukan di visualisasi tabel. Secara *default*, semua kolom hasil ekstraksi ditampilkan di visualisasi tabel. Penamaan kolom juga bisa diatur pada tahap transformasi ini.
+5. Klik **Add another transformation**. Lalu *search* dan pilih **Organize fields by name**. *Disable* apa saja kolom yang tidak diperlukan di visualisasi tabel. Secara *default*, semua kolom hasil ekstraksi ditampilkan di visualisasi tabel. Penamaan kolom juga bisa diatur pada tahap transformasi ini.
 6. Klik **Add another transformation**. Lalu *search* dan pilih **Limit**. Atur nilai batasan maksimal kueri yang ingin ditampilkan di visualisasi tabel.
 7. Klik **Back to dashboard**, lalu atur posisi dan ukuran visualisasi *dashboard*. Terakhir klik **Save dashboard**. Berikut penampakan akhir dari visualisasi log *slow query*.
 ![visualisasi-log-slow-query](/assets/img/posts/devops/visualisasi-akhir-log-slow-query.jpg)

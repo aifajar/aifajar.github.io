@@ -26,9 +26,9 @@ Semua sistem operasi yang terdapat pada VM yang ada menggunakan Ubuntu LTS versi
 | Reverse Proxy (Server Target) | Nginx | Server target untuk mengirim log *web* server Nginx ke Loki. | 1.18.0 |
 | *Logging* | Loki | *Tool* untuk sistem *logging* terpusat. | 3.0.0 |
 | *Log Agent* | Promtail | *Tool* untuk mengirim log dari server target ke Loki. | 3.0.0 |
-| *Object Storage* (S3-Compatible) | IDCloudHost | *Service* untuk menyimpan log secara terpusat. | - |
+| *Object Storage* (S3-Compatible) | IDCloudHost | Servis untuk menyimpan log secara terpusat. | - |
 
-Pastikan sistem di atas sudah tersedia sebelum mengikuti instruksi-instruksi selanjutnya. Alternatif untuk IDCloudHost *object storage* bisa menggunakan alternatif *object storage* lain selama *S3-compatible*, beberapa diantaranya dapat menggunakan Minio, DigitalOcean Space, atau AWS S3. *Project* ini juga bisa dijalankan menggunakan diska bawaan dari VM/VPS tanpa memerlukan *object storage*.
+Pastikan sistem di atas sudah tersedia sebelum mengikuti instruksi-instruksi selanjutnya. Alternatif lain untuk IDCloudHost *object storage*, kita bisa menggunakan *object storage* lain selama *S3-compatible*, beberapa diantaranya, kita dapat menggunakan Minio, DigitalOcean Space, atau AWS S3. *Project* ini juga bisa dijalankan menggunakan diska bawaan dari VM/VPS tempat loki berada tanpa memerlukan *object storage*.
 
 ## Instalasi Loki
 Berikut merupakan langkah-langkah proses instalasi Loki.
@@ -125,7 +125,7 @@ Berikut merupakan langkah-langkah proses instalasi Loki.
 
 ## File Pengaturan Loki
 
-Buka *file* pengaturan *default* Loki yang diunduh sebelumnya.
+Buka *file* pengaturan *default* Loki yang sudah diunduh sebelumnya.
 
 ```console
 sudo nano /etc/loki/loki-local-config.yaml
@@ -195,7 +195,7 @@ ruler:
 Berikut beberapa keterangan pengaturan dari isi *script* di atas.
 - **http_listen_port**: *Port* yang digunakan untuk menajalankan Loki di server.
 - **path_prefix**: Direktori penyimpanan data terkait Loki di server.
-- **schema_config** -> **configs** -> **object_store**: Tipe penyimpanan log pada Loki. Filesystem menggunakan diska pada server VM Loki terinstal. S3 menggunakan *object storage* AWS S3 maupun selain AWS S3 tapi *S3-compatible*.
+- **schema_config** -> **configs** -> **object_store**: Tipe penyimpanan log pada Loki. Gunakan nilai filesystem jika ingin menggunakan diska pada server VM Loki terinstal. Gunakan nilai s3 jika ingin menggunakan *object storage* AWS S3 maupun selain AWS S3 tapi *S3-compatible*.
 - **storage_config** -> **aws** -> **bucketnames**: Nama *bucket object storage*.
 - **storage_config** -> **aws** -> **endpoint**: Nama *endpoint* dari *bucket object storage* yang dibuat.
 - **storage_config** -> **aws** -> **access_key_id**: *Access key* dari *bucket object storage* yang dibuat.

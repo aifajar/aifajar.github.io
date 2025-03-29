@@ -7,7 +7,7 @@ tags: [devops, devops tools, logging system, loki]
 
 ![Logo](/assets/img/posts/logo/logo-loki.svg)
 
-Loki merupakan sebuah *tool* DevOps dari Grafana yang digunakan terkait sistem *logging*. Fungsi utamanya adalah sebagai sistem *log aggregation* yang menyimpan log dan melakukan kueri terhadap log-log tersebut. **Log aggregation** merupakan proses pengumpulan banyak log dari berbagai sumber yang ada dan menggabungkannya ke dalam satu tempat penyimpanan yang tersentralisasi. *Log aggregation* memudahkan sebuah tim untuk memantau, mengecek atau menganalisa suatu sistem, misalnya sistem operasi, *database*, dan aplikasi. *Log aggregation* dapat digunakan juga sebagai persyaratan suatu regulasi maupun *compliance*. Beberapa *tools* terkait *logging* populer selain Loki yang digunakan dalam dunia industri adalah ELK (Elasticsearch, Logstash, Kibana) Stack, Datadog, New Relic, dan Splunk.
+Loki merupakan sebuah *tool* DevOps dari Grafana yang digunakan untuk sistem *logging*. Fungsi utamanya adalah sebagai sistem *log aggregation* yang menyimpan log dan melakukan kueri terhadap log-log tersebut. **Log aggregation** merupakan proses pengumpulan banyak log dari berbagai sumber yang ada dan menggabungkannya ke dalam satu tempat penyimpanan yang tersentralisasi. *Log aggregation* memudahkan sebuah tim untuk memantau, mengecek, atau menganalisa suatu sistem, misalnya sistem operasi, *database*, atau aplikasi. *Log aggregation* dapat digunakan juga sebagai persyaratan suatu regulasi maupun *compliance*. Beberapa *tools* terkait *logging* populer selain Loki yang digunakan dalam dunia industri adalah ELK (Elasticsearch, Logstash, Kibana) Stack, Datadog, New Relic, dan Splunk.
 
 ## Konsep Sistem Logging
 
@@ -15,7 +15,7 @@ Sistem *logging* harus mampu mengumpulkan log dari berbagai sumber yang ada. Set
 
 Pada sistem *logging* biasanya log akan diindeks. Sama seperti *database*, log diindeks untuk melakukan proses pencarian dengan cepat. Log juga harus diatur masa retensinya. Masa retensi tiap log bisa berbeda-beda tergantung jenisnya, contohnya, log terkait keamanan atau audit biasanya disimpan lebih lama karena alasan regulasi atau *compliance* dibanding log terkait aplikasi yang biasa digunakan untuk menganalisis suatu isu.
 
-Beberapa kegunaan sistem *logging* diantaranya adalah dapat memudahkan kita untuk mencari suatu penyebab ataupun *root cause* dari suatu isu yang terjadi di sistem aplikasi atau infrastruktur secara terpusat. Log juga dapat menyediakan konteks tambahan ketika kita ingin saat menganalisis isu secara lebih mendalam, contohnya mengaitkan isu *spike* pada CPU dengan log *request* tertentu.
+Beberapa kegunaan sistem *logging* diantaranya adalah dapat memudahkan kita untuk mencari suatu penyebab ataupun *root cause* secara terpusat dari suatu isu yang terjadi di sistem aplikasi atau infrastruktur. Log juga dapat menyediakan konteks tambahan ketika kita ingin saat menganalisis suatu isu secara lebih mendalam, contohnya mengaitkan isu *spike* pada CPU dengan log *request* tertentu.
 
 ## Fitur Utama Loki
 
@@ -27,8 +27,8 @@ Pengaturan dan sintaksis kueri yang digunakan Loki sangat mirip dengan Prometheu
 
 ## Komponen Pendukung Loki
 
-Untuk mengumpulkan log dari berbagai sumber, Loki membutuhkan sebuah *log agent*. *Log agent* dapat diinstalasi di komputer personal (PC), sistem klien, maupun server target. Beberapa *agent* pada server target yang dapat digunakan Loki, antara lain Promtail, Fluentd, dan Logstash. Namun dalam tulisan selanjutnya, saya hanya akan membahas terkait Promtail saja. Berikut merupakan beberapa fungsi Promtail sebagai *log agent* pada sistem *client* di Loki.
-1. *Log collector*: Promtail mengambil log dari berbagai sumber yang ada di server target, misalnya log dari aplikasi atau infratruktur, seperti *database*.
+Untuk mengumpulkan log dari berbagai sumber, Loki membutuhkan sebuah *log agent*. *Log agent* dapat diinstalasi di komputer personal (PC), sistem klien, maupun server target. Beberapa *agent* pada server target yang dapat digunakan Loki, antara lain Promtail, Fluentd, dan Logstash. Namun dalam tulisan selanjutnya, saya hanya akan membahas terkait Promtail saja. Berikut merupakan beberapa fungsi Promtail sebagai *log agent* pada server target di Loki.
+1. *Log collector*: Promtail mengambil log dari berbagai sumber yang ada di server target, misalnya log dari aplikasi atau infrastruktur, seperti *database*.
 2. Menambahkan label: Promtail akan menambahkan label pada log yang telah dikumpulkan. Label-label tersebut akan sangat berguna untuk memfilter dan mengelompokkan log ketika akan dikueri di Loki. Contoh dari label berupa app_name, environment, atau hostname.
 3. *Parsing log*: Promtail dapat memecah atau memformat log sesuai kebutuhan analisis dari pengguna. *Parsing* akan menghasilkan label baru pada log.
 4. Mengirim log ke Loki: Setelah log dikumpulkan, dilabeli dan di-*parsing*, Promtail akan mengirimkannya ke Loki untuk disimpan.
@@ -43,5 +43,10 @@ Berikut merupakan beberapa *projects* terkait Loki yang saya buat dokumentasinya
 2. [Visualisasi dan Analisis Log Slow Query MongoDB Menggunakan Loki](https://blog.aifajar.com/posts/visualisasi-log-slow-query-mongodb-menggunakan-loki/)
 3. Visualisasi Log Nginx (Access & Error) Menggunakan Loki (**Soon**)
 4. Visualisasi Metrics Log Nginx (Access) Menggunakan Loki (**Soon**)
+
+Adapun gambaran dari arsitektur dari infrastruktur sistem yang dibuat, dapat dilihat pada gambar di bawah ini.
+
+![project-loki](/assets/img/posts/devops/arsitektur-project-loki.png)
+_Arsitektur Project Loki_
 
 > Saya melakukan implementasi *projects* tersebut menggunakan infrastruktur yang sudah ada (*existing infrastructure*), sehingga tidak menggunakan versi terbaru dari *stack* aplikasi atau *tools* yang ada. Walaupun demikian, saya meyakini bahwa secara konsep dan implementasi tidak akan berbeda signifikan jika menerapkannya menggunakan versi terbaru dari *stack* aplikasi tersebut.
